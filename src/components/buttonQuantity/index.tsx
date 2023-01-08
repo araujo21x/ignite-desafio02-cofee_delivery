@@ -1,35 +1,41 @@
 import { Minus, Plus } from "phosphor-react";
 import { useState } from "react";
+import ICoffee from "../../utils/interfaces/ICoffee";
 import { Button, ButtonQuantityContainer } from "./styles";
 
-export default function ButtonQuantity() {
-  const [quantity, setQuantity] = useState(1);
-
-  function incrementQuantity() {
-    setQuantity((state) => {
-      let value = state + 1;
-      if (value > 999) value = 999;
-
-      return value;
-    });
+interface IButtonQuantityProps {
+  quantitytTeste: number;
+  idProduct: number;
+  onIncrement: (quantity: number) => void;
+  onDecrement: (quantity: number) => void;
+}
+export default function ButtonQuantity({
+  quantitytTeste,
+  onIncrement,
+  onDecrement,
+}: IButtonQuantityProps) {
+  const [quantity, setQuantity] = useState(quantitytTeste);
+  function handlerIncrementQuantity() {
+    let value = quantity + 1;
+    if (value > 999) value = 999;
+    setQuantity(value);
+    onIncrement(value);
   }
 
-  function decrementQuantity() {
-    setQuantity((state) => {
-      let value = state - 1;
-      if (value < 1) value = 1;
-
-      return value;
-    });
+  function handlerDecrementQuantity() {
+    let value = quantity - 1;
+    if (value < 1) value = 1;
+    setQuantity(value);
+    onDecrement(value);
   }
 
   return (
     <ButtonQuantityContainer>
-      <Button onClick={decrementQuantity}>
+      <Button onClick={handlerDecrementQuantity}>
         <Minus size={14} weight={"bold"} />
       </Button>
       <span>{quantity}</span>
-      <Button onClick={incrementQuantity}>
+      <Button onClick={handlerIncrementQuantity}>
         <Plus size={14} weight={"bold"} />
       </Button>
     </ButtonQuantityContainer>

@@ -5,19 +5,42 @@ import {
   RemoveButton,
   ImgButtonContainer,
 } from "./styles";
-import ImageCoffee from "../../../../../../assets/coffees/arabe.svg";
 import { Trash } from "phosphor-react";
 import ButtonQuantity from "../../../../../../components/buttonQuantity";
-export function Coffees() {
+import IProduct from "../../../../../../utils/interfaces/IProduct";
+import { useContext } from "react";
+import { OrderContext } from "../../../../../../contexts/OrderContext";
+
+interface ICoffeesProps {
+  product: IProduct;
+}
+
+export function Coffees({ product }: ICoffeesProps) {
+  const { coffee } = product;
+  const { updateQuantityProduct, removeProduct } = useContext(OrderContext);
+
+  function handlerUpdateQuantity(quantity: number) {
+    updateQuantityProduct(coffee.id, quantity);
+  }
+
+  function handlerRemover() {
+    removeProduct(coffee.id);
+  }
+
   return (
     <CoffeeContainer>
       <ImgButtonContainer>
-        <img src={ImageCoffee} alt="" />
+        <img src={coffee.image} alt="" />
         <InputContainer>
-          <p>Expresso Tradicional</p>
+          <p>{coffee.name}</p>
           <Inputs>
-            <ButtonQuantity></ButtonQuantity>
-            <RemoveButton type="button">
+            <ButtonQuantity
+              quantitytTeste={product.quantity}
+              idProduct={coffee.id}
+              onIncrement={handlerUpdateQuantity}
+              onDecrement={handlerUpdateQuantity}
+            ></ButtonQuantity>
+            <RemoveButton type="button" onClick={handlerRemover}>
               <Trash size={18} color="#8047F8" />
               REMOVER
             </RemoveButton>
@@ -25,7 +48,7 @@ export function Coffees() {
         </InputContainer>
       </ImgButtonContainer>
 
-      <p>R$ 9,90</p>
+      <p>R$ {product.amountValue}</p>
     </CoffeeContainer>
   );
 }

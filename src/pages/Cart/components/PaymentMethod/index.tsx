@@ -1,4 +1,5 @@
 import { CurrencyDollar } from "phosphor-react";
+import { useState } from "react";
 import { ButtonMethod } from "./components/button";
 import {
   MethodsContainer,
@@ -7,7 +8,16 @@ import {
   Texts,
 } from "./styles";
 
-export function PaymentMethod() {
+interface IMethodProps {
+  method: string;
+  onChangeMethod: (newMethod: string) => void;
+}
+
+export function PaymentMethod({ method, onChangeMethod }: IMethodProps) {
+  function handlerChangeMethod(newMethod: string) {
+    onChangeMethod(newMethod);
+  }
+
   return (
     <PaymentMethodContainer>
       <TextContainer>
@@ -21,9 +31,21 @@ export function PaymentMethod() {
       </TextContainer>
 
       <MethodsContainer>
-        <ButtonMethod iconType="1" nameMethod="CARTÃO DE CRÉDITO" />
-        <ButtonMethod iconType="2" nameMethod="CARTÃO DE DÉBITO" />
-        <ButtonMethod iconType="3" nameMethod="DINHEIRO" />
+        <ButtonMethod
+          nameMethod="CARTÃO DE CRÉDITO"
+          currentMethod={method}
+          changeMethod={handlerChangeMethod}
+        />
+        <ButtonMethod
+          nameMethod="CARTÃO DE DÉBITO"
+          currentMethod={method}
+          changeMethod={handlerChangeMethod}
+        />
+        <ButtonMethod
+          nameMethod="DINHEIRO"
+          currentMethod={method}
+          changeMethod={handlerChangeMethod}
+        />
       </MethodsContainer>
     </PaymentMethodContainer>
   );

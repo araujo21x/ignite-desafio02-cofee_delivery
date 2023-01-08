@@ -9,12 +9,27 @@ import {
 } from "./styles";
 import { ShoppingCart } from "phosphor-react";
 import ICoffee from "../../../../utils/interfaces/ICoffee";
+import { ChangeEvent, useContext, useState } from "react";
+import { OrderContext } from "../../../../contexts/OrderContext";
 
 interface CoffeesProps {
   coffee: ICoffee;
 }
 
 export function Coffees({ coffee }: CoffeesProps) {
+  const { addProduct } = useContext(OrderContext);
+  const [quantity, setQuantity] = useState(0);
+
+  function handlerQuantity(event: ChangeEvent<HTMLInputElement>) {
+    event.target.setCustomValidity("");
+    setQuantity(Number(event.target.value));
+  }
+
+  function handleAddProduct(event: ChangeEvent<HTMLFormElement>) {
+    event.preventDefault();
+    addProduct(coffee, quantity);
+  }
+
   return (
     <CoffeeContainer>
       <img src={coffee.image} alt="" />
@@ -29,14 +44,16 @@ export function Coffees({ coffee }: CoffeesProps) {
       <FormContainer>
         <ValueContainer>
           <p>R$</p>
-          <h1>9,99</h1>
+          <h1>{coffee.valueBase}</h1>
         </ValueContainer>
 
-        <FormValueCoffee action="">
+        <FormValueCoffee onSubmit={handleAddProduct}>
           <input
             type="number"
             name="comment"
             placeholder="1"
+            value={quantity}
+            onChange={handlerQuantity}
             min={1}
             max={100}
             required

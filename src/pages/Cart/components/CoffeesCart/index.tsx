@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { OrderContext } from "../../../../contexts/OrderContext";
 import { Coffees } from "./components/Coffees";
 import {
   BottomContainer,
@@ -9,27 +11,29 @@ import {
 } from "./styles";
 
 export function CoffeesCart() {
+  const { order } = useContext(OrderContext);
   return (
     <CoffeesCartContainer>
       <CoffeesComponentContainer>
-        <Coffees />
-        <Coffees />
+        {order.products.map((product) => {
+          return <Coffees key={product.id} product={product} />;
+        })}
       </CoffeesComponentContainer>
 
       <BottomContainer>
         <SubTitleContainer>
           <p>Total de itens</p>
-          <p>R$ 29,70</p>
+          <p>R$ {order.amountProducts}</p>
         </SubTitleContainer>
 
         <SubTitleContainer>
           <p>Entrega</p>
-          <p>R$ 3,50</p>
+          <p>R$ {order.deliveryTax}</p>
         </SubTitleContainer>
 
         <TitleContainer>
           <p>Total</p>
-          <p>R$ 33,20</p>
+          <p>R$ {order.amount}</p>
         </TitleContainer>
         <ButtonSubmit type="submit">CONFIRMAR PEDIDO</ButtonSubmit>
       </BottomContainer>

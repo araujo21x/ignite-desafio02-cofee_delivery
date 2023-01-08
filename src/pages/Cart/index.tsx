@@ -12,8 +12,10 @@ import {
 import { AddressForm } from "./components/AddressForm";
 import { PaymentMethod } from "./components/PaymentMethod";
 import { CoffeesCart } from "./components/CoffeesCart";
+import { useState } from "react";
 
 export function Cart() {
+  // address
   const addressForm = useForm<AddressFormData>({
     resolver: zodResolver(AddressValidationSchema),
     defaultValues: {
@@ -28,8 +30,13 @@ export function Cart() {
   });
   const { handleSubmit, reset } = addressForm;
 
+  // method
+  const [method, setMethod] = useState("");
+  function changeMethod(newMethod: string) {
+    setMethod(newMethod);
+  }
+
   function handlerCreateCart(data: AddressFormData) {
-    console.log("mudei aqui");
     reset();
   }
 
@@ -42,7 +49,7 @@ export function Cart() {
             <AddressForm />
           </FormProvider>
 
-          <PaymentMethod />
+          <PaymentMethod method={method} onChangeMethod={changeMethod} />
         </PersonalInformationContainer>
 
         <CartInformationContainer>
