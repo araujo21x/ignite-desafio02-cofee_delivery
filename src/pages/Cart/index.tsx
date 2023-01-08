@@ -40,6 +40,11 @@ export function Cart() {
     reset();
   }
 
+  const [, updateState] = useState({});
+  function forceUpdate() {
+    updateState({});
+  }
+
   return (
     <CartContainer>
       <form onSubmit={handleSubmit(handlerCreateCart)} action="">
@@ -55,7 +60,7 @@ export function Cart() {
         <CartInformationContainer>
           <h1>Cafés selecionados</h1>
 
-          <CoffeesCart />
+          <CoffeesCart updateState={forceUpdate} />
         </CartInformationContainer>
       </form>
     </CartContainer>

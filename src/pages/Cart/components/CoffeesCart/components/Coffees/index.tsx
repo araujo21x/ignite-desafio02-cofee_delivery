@@ -13,18 +13,21 @@ import { OrderContext } from "../../../../../../contexts/OrderContext";
 
 interface ICoffeesProps {
   product: IProduct;
+  updateState: () => void;
 }
 
-export function Coffees({ product }: ICoffeesProps) {
+export function Coffees({ product, updateState }: ICoffeesProps) {
   const { coffee } = product;
   const { updateQuantityProduct, removeProduct } = useContext(OrderContext);
 
   function handlerUpdateQuantity(quantity: number) {
     updateQuantityProduct(coffee.id, quantity);
+    updateState();
   }
 
   function handlerRemover() {
     removeProduct(coffee.id);
+    updateState();
   }
 
   return (
@@ -48,7 +51,12 @@ export function Coffees({ product }: ICoffeesProps) {
         </InputContainer>
       </ImgButtonContainer>
 
-      <p>R$ {product.amountValue}</p>
+      <p>
+        {product.amountValue.toLocaleString("pt-br", {
+          style: "currency",
+          currency: "BRL",
+        })}
+      </p>
     </CoffeeContainer>
   );
 }

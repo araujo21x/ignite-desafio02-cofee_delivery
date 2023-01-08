@@ -18,14 +18,14 @@ export default function ButtonQuantity({
   function handlerIncrementQuantity() {
     let value = quantity + 1;
     if (value > 999) value = 999;
-    setQuantity(value);
+    setQuantity((oldState) => oldState + 1);
     onIncrement(value);
   }
 
   function handlerDecrementQuantity() {
     let value = quantity - 1;
     if (value < 1) value = 1;
-    setQuantity(value);
+    setQuantity((oldState) => oldState - 1);
     onDecrement(value);
   }
 

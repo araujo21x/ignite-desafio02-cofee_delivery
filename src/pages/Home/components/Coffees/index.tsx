@@ -44,7 +44,11 @@ export function Coffees({ coffee }: CoffeesProps) {
       <FormContainer>
         <ValueContainer>
           <p>R$</p>
-          <h1>{coffee.valueBase}</h1>
+          <h1>
+            {coffee.valueBase.toLocaleString("pt-br", {
+              minimumFractionDigits: 2,
+            })}
+          </h1>
         </ValueContainer>
 
         <FormValueCoffee onSubmit={handleAddProduct}>
