@@ -12,9 +12,17 @@ import {
 import { AddressForm } from "./components/AddressForm";
 import { PaymentMethod } from "./components/PaymentMethod";
 import { CoffeesCart } from "./components/CoffeesCart";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { OrderContext } from "../../contexts/OrderContext";
+import IAddress from "../../utils/interfaces/IAddress";
 
 export function Cart() {
+  // atualizar componente
+  const [, updateState] = useState({});
+  function forceUpdate() {
+    updateState({});
+  }
+
   // address
   const addressForm = useForm<AddressFormData>({
     resolver: zodResolver(AddressValidationSchema),
@@ -36,18 +44,20 @@ export function Cart() {
     setMethod(newMethod);
   }
 
+  const { updateAddress, updateMethod, order } = useContext(OrderContext);
   function handlerCreateCart(data: AddressFormData) {
+    updateAddress(data as IAddress);
+    updateMethod(method);
+    setMethod("");
+    forceUpdate();
     reset();
-  }
 
-  const [, updateState] = useState({});
-  function forceUpdate() {
-    updateState({});
+    console.log(order);
   }
 
   return (
     <CartContainer>
-      <form onSubmit={handleSubmit(handlerCreateCart)} action="">
+      <form id="a-form" onSubmit={handleSubmit(handlerCreateCart)}>
         <PersonalInformationContainer>
           <h1>Complete seu pedido</h1>
           <FormProvider {...addressForm}>

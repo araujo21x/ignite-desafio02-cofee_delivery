@@ -1,4 +1,6 @@
 import { createContext, ReactNode, useReducer, useState } from "react";
+import { AddressFormData } from "../pages/Cart/validator/AddressValidator";
+import IAddress from "../utils/interfaces/IAddress";
 import ICoffee from "../utils/interfaces/ICoffee";
 import IOrder from "../utils/interfaces/IOrder";
 import IProduct from "../utils/interfaces/IProduct";
@@ -13,6 +15,8 @@ export interface OrderContextType {
   addProduct: (coffee: ICoffee, quantity: number) => void;
   removeProduct: (id: number) => void;
   updateQuantityProduct: (id: number, quantity: number) => void;
+  updateAddress: (data: IAddress) => void;
+  updateMethod: (method: string) => void;
 }
 
 export const OrderContext = createContext({} as OrderContextType);
@@ -107,6 +111,16 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
     SetOrder(order);
   }
 
+  function updateAddress(data: IAddress) {
+    order.address = data;
+    SetOrder(order);
+  }
+
+  function updateMethod(method: string) {
+    order.methodPayment = method;
+    SetOrder(order);
+  }
+
   return (
     <OrderContext.Provider
       value={{
@@ -115,6 +129,8 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
         addProduct,
         removeProduct,
         updateQuantityProduct,
+        updateAddress,
+        updateMethod,
       }}
     >
       {children}

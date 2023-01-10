@@ -12,7 +12,6 @@ import {
 
 export function CoffeesCart({ updateState }: any) {
   const { order } = useContext(OrderContext);
-
   return (
     <CoffeesCartContainer>
       <CoffeesComponentContainer>
@@ -57,7 +56,7 @@ export function CoffeesCart({ updateState }: any) {
             })}
           </p>
         </TitleContainer>
-        <ButtonSubmit type="submit">CONFIRMAR PEDIDO</ButtonSubmit>
+        <ButtonSubmit form="a-form">CONFIRMAR PEDIDO</ButtonSubmit>
       </BottomContainer>
     </CoffeesCartContainer>
   );
